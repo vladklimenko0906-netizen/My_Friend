@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X10 Wealth — Профессиональный AI-ассистент для портфельных менеджеров</title>
+<meta name="description" content="Платформа для портфельных менеджеров и инвестиционных консультантов в private-сегменте. Каждый ответ со ссылкой на НК РФ, ЦБ и вашу продуктовую полку. Вход через Diagnostic Demo с основателем.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --bg-alt: #F4F2ED;
+    --bg-cream: #F9F6EE;
+    --bg-dark: #0A0A0A;
+    --card: #FFFFFF;
+    --ink: #0A0A0A;
+    --ink-2: #3D3D3D;
+    --ink-3: #6B6B6B;
+    --ink-4: #9B9B9B;
+    --ink-5: #C4C2BC;
+    --line: #E8E6E0;
+    --line-2: #EFEDE7;
+    --emerald: #0B3D2E;
+    --emerald-2: #2D8659;
+    --emerald-soft: #EAF2EE;
+    --gold: #B8860B;
+    --gold-matte: #D4AF37;
+    --gold-soft: #FAF6E8;
+    --burgundy: #8B2E2E;
+    --burgundy-soft: #FCF4F4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    letter-spacing: 0.012em;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    font-feature-settings: 'ss01', 'cv01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .container-narrow { max-width: 980px; margin: 0 auto; padding: 0 32px; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-feature-settings: 'ss01'; }
+  .serif { font-family: 'Source Serif 4', serif; }
+
+  .eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-3);
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before {
+    content: ''; width: 24px; height: 1px; background: var(--gold-matte);
+  }
+  .eyebrow.no-line::before { display: none; }
+
+  h1, h2, h3 { letter-spacing: -0.015em; color: var(--ink); font-weight: 600; }
+  h1 { font-size: 68px; line-height: 1.04; font-weight: 600; }
+  h2 { font-size: 44px; line-height: 1.1; }
+  h3 { font-size: 22px; line-height: 1.3; font-weight: 600; }
+  p { color: var(--ink-2); }
+  .muted { color: var(--ink-3); }
+  a { color: inherit; text-decoration: none; }
+
+  .accent-em {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--emerald);
+  }
+  .accent-gold {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--gold);
+  }
+
+  /* ===== Nav ===== */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,247,0.86);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 70px;
+  }
+  .logo {
+    font-weight: 600; font-size: 18px; letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-mark {
+    width: 24px; height: 24px; border-radius: 6px;
+    background: var(--emerald); display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .logo-mark::after {
+    content: ''; width: 9px; height: 9px; border-radius: 2px; background: var(--gold-matte);
+  }
+  .nav-links { display: flex; gap: 36px; font-size: 14px; color: var(--ink-3); }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { display: flex; gap: 14px; align-items: center; font-size: 14px; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 24px; border-radius: 6px; font-size: 15px; font-weight: 500;
+    cursor: pointer; transition: all .18s ease; border: none;
+    font-family: inherit;
+  }
+  .btn-sm { padding: 10px 18px; font-size: 13px; }
+  .btn-lg { padding: 18px 32px; font-size: 16px; }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover { background: #2a2a2a; transform: translateY(-1px); box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+  .btn-emerald { background: var(--emerald); color: #fff; }
+  .btn-emerald:hover { background: #0a4f3a; transform: translateY(-1px); box-shadow: 0 12px 32px rgba(11,61,46,0.22); }
+  .btn-outline { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+  .btn-outline:hover { border-color: var(--ink); }
+  .btn-ghost { color: var(--ink-2); }
+  .btn-ghost:hover { color: var(--ink); }
+
+  section { padding: 110px 0; position: relative; }
+  .section-head { text-align: center; max-width: 760px; margin: 0 auto 60px; }
+  .section-head .eyebrow { margin-bottom: 18px; }
+  .section-head h2 { margin: 0 0 18px; }
+  .section-head p { font-size: 19px; color: var(--ink-3); line-height: 1.55; }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 80px 0 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(11,61,46,0.04), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 72px;
+    align-items: center;
+    position: relative;
+  }
+  .hero h1 { margin: 22px 0 26px; max-width: 640px; }
+  .hero-sub {
+    font-size: 19px; color: var(--ink-2);
+    max-width: 540px; margin-bottom: 36px; line-height: 1.55;
+  }
+  .hero-sub b { color: var(--ink); font-weight: 600; }
+
+  .hero-cta { display: flex; gap: 14px; align-items: center; margin-bottom: 22px; flex-wrap: wrap; }
+  .hero-meta {
+    font-size: 13px; color: var(--ink-3);
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding-top: 24px; border-top: 1px solid var(--line);
+  }
+  .hero-meta .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--emerald-2); }
+  .hero-meta b { color: var(--ink); font-weight: 600; }
+
+  /* Терминал-демонстрация */
+  .terminal {
+    background: #0F0E0C;
+    border-radius: 14px;
+    padding: 0;
+    box-shadow:
+      0 50px 100px rgba(11,61,46,0.18),
+      0 12px 32px rgba(0,0,0,0.10);
+    transform: perspective(2400px) rotateY(-4deg) rotateX(2deg);
+    overflow: hidden;
+    position: relative;
+  }
+  .terminal-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 18px;
+    background: #18171550;
+    border-bottom: 1px solid #2A2825;
+  }
+  .terminal-bar .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .terminal-bar .d1 { background: #FF5F57; }
+  .terminal-bar .d2 { background: #FEBC2E; }
+  .terminal-bar .d3 { background: #28C840; }
+  .terminal-bar .label {
+    margin-left: 14px; color: #6B6961;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .terminal-bar .label .live {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; background: #28C840; margin-right: 8px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .terminal-body {
+    padding: 28px 28px 32px;
+    color: #E8E6E0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .term-prompt { color: #7C9C8C; margin-bottom: 14px; }
+  .term-prompt::before { content: '$ '; color: #6B6961; }
+  .term-q {
+    color: #C4C2BC;
+    padding: 10px 14px;
+    background: #1A1916;
+    border-left: 2px solid #B8860B;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 16px;
+    font-style: italic;
+    font-family: 'Source Serif 4', serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .term-resp { color: #E8E6E0; margin-bottom: 14px; }
+  .term-resp .num { color: #D4AF37; font-weight: 500; }
+  .term-resp .em { color: #7DB89F; }
+  .term-source {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 9px;
+    background: rgba(45,134,89,0.15);
+    border: 1px solid rgba(45,134,89,0.3);
+    border-radius: 4px;
+    font-size: 10.5px;
+    color: #7DB89F;
+    margin: 0 2px;
+  }
+  .term-source::before {
+    content: ''; width: 4px; height: 4px;
+    border-radius: 50%; background: #28C840;
+  }
+  .term-meta {
+    display: flex; gap: 20px;
+    padding-top: 16px;
+    margin-top: 4px;
+    border-top: 1px dashed #2A2825;
+    font-size: 11px;
+    color: #6B6961;
+  }
+  .term-meta b { color: #B8860B; font-weight: 500; }
+
+  /* Vs ChatGPT chip */
+  .vs-chip {
+    position: absolute; top: 16px; right: -18px;
+    background: var(--card); border: 1px solid var(--line);
+    padding: 9px 14px; border-radius: 24px;
+    font-size: 11px; color: var(--ink-2);
+    font-weight: 500;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    display: flex; align-items: center; gap: 7px;
+    transform: rotate(2deg);
+    z-index: 5;
+  }
+  .vs-chip .red { width: 7px; height: 7px; border-radius: 50%; background: var(--burgundy); }
+  .terminal-wrap { position: relative; }
+
+  /* ===== TRUST BAND ===== */
+  .trust-band {
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-alt);
+  }
+  .trust-band-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .trust-label {
+    font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-4);
+    font-weight: 500;
+  }
+  .trust-items {
+    display: flex; gap: 40px; flex-wrap: wrap;
+    font-size: 13px; color: var(--ink-3);
+  }
+  .trust-item {
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .trust-item svg { width: 14px; height: 14px; color: var(--emerald); }
+
+  /* ===== PROBLEM ===== */
+  .problem {
+    background: var(--bg);
+    padding: 120px 0;
+  }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .problem-quote {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 32px;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .problem-quote::before {
+    content: '"';
+    position: absolute; top: -24px; left: -28px;
+    font-size: 88px; color: var(--gold-matte);
+    line-height: 1; font-weight: 400;
+  }
+  .problem-attr {
+    font-size: 13px; color: var(--ink-3);
+    margin-bottom: 24px; letter-spacing: 0.04em;
+  }
+  .problem-text { font-size: 17px; line-height: 1.65; margin-bottom: 22px; }
+  .problem-text b { color: var(--ink); }
+
+  .pain-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .pain-stat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 28px 24px;
+  }
+  .pain-stat-num {
+    font-size: 40px; font-weight: 600;
+    font-family: 'Source Serif 4', serif;
+    color: var(--burgundy);
+    line-height: 1; margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .pain-stat-label {
+    font-size: 13px; color: var(--ink-2); line-height: 1.5;
+  }
+  .pain-stat-source {
+    font-size: 11px; color: var(--ink-4); margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ===== ARCHITECTURE ===== */
+  .architecture {
+    background: var(--bg-alt);
+    padding: 120px 0;
+  }
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .arch-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 36px 32px;
+    transition: all .25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .arch-card:hover {
+    border-color: var(--emerald);
+    transform: translateY(-2px);
+    box-shadow: 0 24px 48px rgba(11,61,46,0.06);
+  }
+  .arch-card-tag {
+    display: inline-flex;
+    font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--emerald);
+    font-weight: 600; margin-bottom: 16px;
+    padding: 4px 10px;
+    background: var(--emerald-soft);
+    border-radius: 4px;
+  }
+  .arch-card h3 {
+    font-size: 23px; margin-bottom: 14px;
+    line-height: 1.25;
+  }
+  .arch-card p {
+    font-size: 15px; color: var(--ink-2);
+    line-height: 1.6; margin-bottom: 20px;
+  }
+  .arch-card-meta {
+    display: flex; gap: 16px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-2);
+    font-size: 12px; color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .arch-card-meta b { color: var(--emerald); font-weight: 500; }
+
+  /* Featured larger card */
+  .arch-card.featured {
+    grid-column: span 2;
+    background: var(--bg-dark);
+    color: #E8E6E0;
+    border: 1px solid #1F1E1B;
+  }
+  .arch-card.featured .arch-card-tag {
+    background: rgba(212,175,55,0.15);
+    color: var(--gold-matte);
+  }
+  .arch-card.featured h3 { color: #FAFAF7; font-size: 28px; margin-bottom: 18px; }
+  .arch-card.featured p { color: #C4C2BC; font-size: 16px; max-width: 720px; }
+  .arch-card.featured .arch-card-meta { border-top-color: #2A2825; color: #6B6961; }
+  .arch-card.featured .arch-card-meta b { color: var(--gold-matte); }
+  .arch-card.featured:hover { border-color: var(--gold-matte); }
+
+  /* ===== HOW IT WORKS ===== */
+  .how-it-works {
+    background: var(--bg);
+    padding: 120px 0;
+  }
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 40px;
+    position: relative;
+  }
+  .flow-step {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 36px 28px;
+    position: relative;
+  }
+  .flow-num {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 56px;
+    color: var(--gold-matte);
+    line-height: 1;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .flow-step h3 { margin-bottom: 12px; font-size: 21px; }
+  .flow-step p { font-size: 15px; line-height: 1.55; color: var(--ink-2); }
+  .flow-step .flow-tag {
+    display: inline-block;
+    font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-2);
+  }
+  .flow-step .flow-tag b { color: var(--emerald); }
+
+  /* ===== POSITIONING (Premium) ===== */
+  .positioning {
+    background: var(--bg-dark);
+    color: #E8E6E0;
+    padding: 130px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .positioning::before {
+    content: ''; position: absolute;
+    top: -300px; left: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(212,175,55,0.06), transparent 70%);
+    pointer-events: none;
+  }
+  .positioning .section-head h2 { color: #FAFAF7; }
+  .positioning .section-head p { color: #9B9B9B; }
+  .positioning .eyebrow { color: var(--gold-matte); }
+  .positioning .eyebrow::before { background: var(--gold-matte); }
+
+  .vs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 60px;
+    position: relative;
+  }
+  .vs-grid::before {
+    content: ''; position: absolute;
+    top: 50px; bottom: 50px; left: 50%;
+    width: 1px; background: #2A2825;
+  }
+  .vs-side h3 {
+    font-size: 14px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6B6961;
+    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+  .vs-side .vs-headline {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.3;
+    color: #FAFAF7;
+    margin-bottom: 32px;
+    max-width: 460px;
+  }
+  .vs-side.right .vs-headline { color: var(--gold-matte); }
+  .vs-list { list-style: none; }
+  .vs-list li {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 12px 0;
+    font-size: 15.5px; color: #C4C2BC;
+    line-height: 1.55;
+    border-bottom: 1px solid #1A1916;
+  }
+  .vs-list li:last-child { border-bottom: none; }
+  .vs-list li b { color: #FAFAF7; font-weight: 500; }
+  .vs-bullet {
+    color: var(--gold-matte);
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .vs-side.left .vs-bullet { color: #6B6961; }
+
+  /* ===== PRICING ===== */
+  .pricing {
+    background: var(--bg);
+    padding: 130px 0;
+  }
+  .price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .price-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 44px 40px;
+    position: relative;
+    transition: all .25s ease;
+  }
+  .price-card-tag {
+    display: inline-flex;
+    font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--emerald);
+    font-weight: 600; margin-bottom: 18px;
+    padding: 4px 12px;
+    background: var(--emerald-soft);
+    border-radius: 4px;
+  }
+  .price-card.premium .price-card-tag {
+    background: rgba(184,134,11,0.12);
+    color: var(--gold);
+  }
+  .price-card h3 {
+    font-size: 28px; margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .price-card .price-sub {
+    font-size: 15px; color: var(--ink-3);
+    margin-bottom: 28px; line-height: 1.5;
+  }
+  .price-amount {
+    display: flex; align-items: baseline; gap: 10px;
+    margin-bottom: 6px;
+  }
+  .price-num {
+    font-family: 'Source Serif 4', serif;
+    font-size: 56px; font-weight: 600;
+    color: var(--ink); line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .price-period { font-size: 16px; color: var(--ink-3); }
+  .price-yearly {
+    font-size: 13px; color: var(--ink-3); margin-bottom: 32px;
+    padding-bottom: 28px; border-bottom: 1px solid var(--line-2);
+  }
+  .price-yearly b { color: var(--emerald); font-weight: 600; }
+
+  .price-features { list-style: none; margin-bottom: 32px; }
+  .price-features li {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 11px 0;
+    font-size: 14.5px; color: var(--ink-2);
+    line-height: 1.5;
+  }
+  .price-features li b { color: var(--ink); font-weight: 600; }
+  .check {
+    width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;
+    color: var(--emerald);
+  }
+  .premium .check { color: var(--gold); }
+  .check.muted { color: var(--ink-4); opacity: 0.5; }
+
+  .price-card .btn { width: 100%; }
+
+  /* Premium card variant */
+  .price-card.premium {
+    background: linear-gradient(180deg, #FAFAF7 0%, #F4F2ED 100%);
+    border: 1px solid var(--gold-matte);
+    position: relative;
+  }
+  .premium-ribbon {
+    position: absolute; top: -1px; right: 28px;
+    background: var(--gold-matte);
+    color: #fff;
+    font-size: 10.5px; letter-spacing: 0.14em;
+    padding: 6px 14px;
+    border-radius: 0 0 4px 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  /* ===== ONBOARDING ===== */
+  .onboarding {
+    background: var(--bg-cream);
+    padding: 120px 0;
+  }
+  .onboard-flow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin-top: 40px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .onboard-step {
+    padding: 40px 32px;
+    border-right: 1px solid var(--line);
+    position: relative;
+  }
+  .onboard-step:last-child { border-right: none; }
+  .onboard-step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--gold-matte);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .onboard-step h3 {
+    font-size: 22px; margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .onboard-step p {
+    font-size: 14.5px; line-height: 1.55; color: var(--ink-2);
+    margin-bottom: 22px;
+  }
+  .onboard-step-meta {
+    padding-top: 20px;
+    border-top: 1px solid var(--line-2);
+    display: flex; flex-direction: column; gap: 6px;
+    font-size: 12.5px; color: var(--ink-3);
+  }
+  .onboard-step-meta b { color: var(--ink); font-weight: 600; }
+  .onboard-step-meta .mono { font-size: 11.5px; color: var(--ink-3); }
+
+  /* ===== FOUNDER ===== */
+  .founder {
+    background: var(--bg);
+    padding: 130px 0;
+  }
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .founder-card {
+    background: var(--bg-dark);
+    color: #E8E6E0;
+    border-radius: 14px;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .founder-card::before {
+    content: ''; position: absolute;
+    top: -100px; right: -100px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(212,175,55,0.08), transparent 70%);
+  }
+  .founder-card .label {
+    font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--gold-matte);
+    margin-bottom: 14px; font-weight: 500;
+  }
+  .founder-card .name {
+    font-size: 26px; font-weight: 600;
+    margin-bottom: 10px;
+    color: #FAFAF7;
+  }
+  .founder-card .role {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: #9B9B9B;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+  .founder-credentials { list-style: none; }
+  .founder-credentials li {
+    display: flex; gap: 12px;
+    padding: 9px 0;
+    font-size: 14px; color: #C4C2BC;
+    line-height: 1.5;
+  }
+  .founder-credentials li::before {
+    content: '—'; color: var(--gold-matte); flex-shrink: 0;
+  }
+
+  .founder-text h2 { margin-bottom: 22px; }
+  .founder-text p {
+    font-size: 17px; line-height: 1.65;
+    color: var(--ink-2); margin-bottom: 18px;
+  }
+  .founder-text p b { color: var(--ink); }
+  .founder-quote {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--emerald);
+    padding: 20px 0 0;
+    border-top: 1px solid var(--line);
+    margin-top: 28px;
+  }
+
+  /* ===== FAQ ===== */
+  .faq {
+    background: var(--bg-alt);
+    padding: 120px 0;
+  }
+  .faq-list {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+    padding: 28px 0;
+  }
+  .faq-q {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.4;
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 24px;
+  }
+  .faq-q::after {
+    content: '+';
+    font-family: 'Source Serif 4', serif;
+    font-size: 28px; color: var(--gold-matte);
+    line-height: 0.8;
+    transition: transform .2s ease;
+    flex-shrink: 0;
+  }
+  .faq-item.open .faq-q::after { content: '−'; }
+  .faq-a {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 760px;
+    display: none;
+  }
+  .faq-item.open .faq-a { display: block; }
+  .faq-a b { color: var(--ink); font-weight: 600; }
+
+  /* ===== FINAL CTA ===== */
+  .final-cta {
+    background: var(--bg-dark);
+    color: #E8E6E0;
+    padding: 130px 0;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .final-cta::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(11,61,46,0.25), transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(212,175,55,0.10), transparent 60%);
+  }
+  .final-cta-inner { position: relative; z-index: 1; }
+  .final-cta .eyebrow { color: var(--gold-matte); margin-bottom: 22px; }
+  .final-cta .eyebrow::before { background: var(--gold-matte); }
+  .final-cta h2 {
+    color: #FAFAF7;
+    font-size: 56px;
+    line-height: 1.08;
+    max-width: 820px;
+    margin: 0 auto 28px;
+    font-weight: 600;
+  }
+  .final-cta h2 .accent-em { color: var(--gold-matte); }
+  .final-cta p {
+    font-size: 19px; color: #9B9B9B;
+    max-width: 620px; margin: 0 auto 40px;
+    line-height: 1.55;
+  }
+  .final-cta .btn-emerald { padding: 18px 36px; font-size: 16px; }
+  .final-cta-meta {
+    margin-top: 28px; font-size: 13px; color: #6B6961;
+    display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+  }
+  .final-cta-meta span { display: inline-flex; align-items: center; gap: 8px; }
+  .final-cta-meta .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--emerald-2); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+    padding: 56px 0 40px;
+  }
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-brand .logo { margin-bottom: 16px; }
+  .footer-brand p {
+    font-size: 13px; color: var(--ink-3);
+    max-width: 280px; line-height: 1.55;
+  }
+  .footer-col h4 {
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-4);
+    margin-bottom: 16px; font-weight: 600;
+  }
+  .footer-col a {
+    display: block;
+    font-size: 14px; color: var(--ink-2);
+    padding: 6px 0; transition: color .15s ease;
+  }
+  .footer-col a:hover { color: var(--ink); }
+
+  .footer-legal {
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 18px;
+    font-size: 12px; color: var(--ink-4);
+    line-height: 1.5;
+  }
+  .footer-legal p { color: var(--ink-4); max-width: 720px; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 980px) {
+    h1 { font-size: 48px; }
+    h2 { font-size: 34px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 50px; }
+    .terminal { transform: none; }
+    .vs-chip { display: none; }
+    .problem-grid { grid-template-columns: 1fr; gap: 40px; }
+    .problem-quote { font-size: 26px; }
+    .problem-quote::before { display: none; }
+    .arch-grid { grid-template-columns: 1fr; }
+    .arch-card.featured { grid-column: span 1; }
+    .flow { grid-template-columns: 1fr; }
+    .vs-grid { grid-template-columns: 1fr; gap: 50px; }
+    .vs-grid::before { display: none; }
+    .price-grid { grid-template-columns: 1fr; }
+    .onboard-flow { grid-template-columns: 1fr; }
+    .onboard-step { border-right: none; border-bottom: 1px solid var(--line); }
+    .onboard-step:last-child { border-bottom: none; }
+    .founder-grid { grid-template-columns: 1fr; gap: 40px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .final-cta h2 { font-size: 38px; }
+    section { padding: 80px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark"></span>
+      X10 WEALTH
+    </a>
+    <div class="nav-links">
+      <a href="#problem">Боль</a>
+      <a href="#architecture">Архитектура</a>
+      <a href="#how">Как это работает</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#founder">Основатель</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn-ghost">Войти</a>
+      <a href="#cta" class="btn btn-emerald btn-sm">Diagnostic Demo →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">AI-платформа для портфельных менеджеров · Private сегмент</span>
+        <h1>Уберите из своего лексикона фразу <span class="accent-em">«минуточку, я уточню»</span> — навсегда.</h1>
+        <p class="hero-sub">
+          Профессиональный AI-ассистент для ПМ и инвестиционных консультантов, работающих с состоятельными клиентами. <b>Каждый ответ со ссылкой на НК РФ, ЦБ и вашу продуктовую полку.</b> Никаких галлюцинаций. Никаких пауз на встрече.
+        </p>
+        <div class="hero-cta">
+          <a href="#cta" class="btn btn-emerald btn-lg">Записаться на Diagnostic Demo →</a>
+          <a href="#how" class="btn btn-outline">Как это работает</a>
+        </div>
+        <div class="hero-meta">
+          <span><span class="dot"></span> <b>30 минут с основателем</b></span>
+          <span>·</span>
+          <span>Бесплатно</span>
+          <span>·</span>
+          <span>Лимит <b>35 сессий в месяц</b></span>
+        </div>
+      </div>
+
+      <div class="terminal-wrap">
+        <div class="vs-chip">
+          <span class="red"></span>
+          В отличие от ChatGPT — со ссылкой на источник
+        </div>
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="dot d1"></span>
+            <span class="dot d2"></span>
+            <span class="dot d3"></span>
+            <span class="label"><span class="live"></span>my_friend · live</span>
+          </div>
+          <div class="terminal-body">
+            <div class="term-prompt">Вопрос клиента на встрече</div>
+            <div class="term-q">«Почему я должен брать ноту с купоном 22%, а не ОФЗ под 16% — там же государство?»</div>
+            <div class="term-prompt">Ответ за 6.4 секунды</div>
+            <div class="term-resp">
+              <span class="num">1.</span> Купон 22% по ноте <span class="em">не сравним с купоном 16%</span> ОФЗ напрямую — у ноты есть условный доход (зависит от барьеров).
+            </div>
+            <div class="term-resp">
+              <span class="num">2.</span> Налоговая база ноты — НДФЛ <span class="em">13/15%</span> с доходов держателя <span class="term-source">НК РФ ст. 214.1</span>
+            </div>
+            <div class="term-resp">
+              <span class="num">3.</span> Условие защиты капитала срабатывает при <span class="em">падении базового актива &gt; 30%</span> на дату наблюдения <span class="term-source">проспект эмитента, п. 4.2</span>
+            </div>
+            <div class="term-meta">
+              <span>Источников: <b>3</b></span>
+              <span>Время: <b>6.4 сек</b></span>
+              <span>Галлюцинаций: <b>0</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST BAND ============ -->
+<div class="trust-band">
+  <div class="container trust-band-inner">
+    <span class="trust-label">Архитектура соответствия</span>
+    <div class="trust-items">
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M7 7h10v10H7V7z"/></svg>
+        152-ФЗ by design
+      </span>
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5z"/></svg>
+        Не ИИР · справочный материал
+      </span>
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4-8-12V5l8-3 8 3v5c0 8-8 12-8 12z"/></svg>
+        Zero-Hallucination Guardrails
+      </span>
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20"/></svg>
+        Telegram-first
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PROBLEM ============ -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="problem-grid">
+      <div>
+        <span class="eyebrow">Реальная боль · не маркетинговая</span>
+        <div class="problem-quote serif" style="margin-top: 32px;">
+          Вы теряете сделки не из-за слабого продукта. Вы теряете их в момент паузы.
+        </div>
+        <div class="problem-attr mono">— основа продуктовой философии My Friend</div>
+        <p class="problem-text">
+          Клиент с капиталом в 5–10 раз выше вашего годового дохода задаёт нестандартный вопрос по налогообложению ноты или сравнению с ОФЗ. Вы говорите <b>«минуточку, я уточню»</b> — и теряете темп, доверие и часто саму сделку.
+        </p>
+        <p class="problem-text">
+          Параллельно — <b>2–4 часа на подготовку</b> к каждой встрече и <b>30–60 минут</b> на резюме после. Это время не монетизируется и не масштабируется.
+        </p>
+      </div>
+
+      <div class="pain-stats">
+        <div class="pain-stat">
+          <div class="pain-stat-num">25–30%</div>
+          <div class="pain-stat-label">конверсия встреча → сделка без инструментальной поддержки</div>
+          <div class="pain-stat-source">// типичный показатель ПМ в private</div>
+        </div>
+        <div class="pain-stat">
+          <div class="pain-stat-num">2–4 ч</div>
+          <div class="pain-stat-label">на подготовку одного комплекта материалов к встрече</div>
+          <div class="pain-stat-source">// без автоматизации</div>
+        </div>
+        <div class="pain-stat">
+          <div class="pain-stat-num">25–35</div>
+          <div class="pain-stat-label">физический потолок активных клиентов на одного советника</div>
+          <div class="pain-stat-source">// потолок без AI-инфраструктуры</div>
+        </div>
+        <div class="pain-stat">
+          <div class="pain-stat-num">3–5</div>
+          <div class="pain-stat-label">забытых повторных касаний в неделю — упущенный апсейл</div>
+          <div class="pain-stat-source">// аудит CRM-данных</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARCHITECTURE ============ -->
+<section class="architecture" id="architecture">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Архитектура продукта</span>
+      <h2>Шесть модулей. Пять системных слоёв. Один моат.</h2>
+      <p>Платформа разделена на единицы ценности (модули) и невидимую инфраструктуру (системные слои), которая делает её невоспроизводимой за &lt; 18 месяцев.</p>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-card featured">
+        <span class="arch-card-tag">Системный слой · Moat</span>
+        <h3>Zero-Hallucination Guardrails</h3>
+        <p>Каждый числовой ответ обязан содержать ссылку на источник из верифицированной базы — НК РФ, акты ЦБ, ваша продуктовая полка. Если RAG не находит подтверждения — система отказывается отвечать. Это не feature. Это инфраструктура.</p>
+        <div class="arch-card-meta">
+          <span>База: <b>НК РФ + ЦБ + продуктовая полка компании</b></span>
+          <span>Обновление: <b>≤ 24 ч с момента публикации</b></span>
+        </div>
+      </div>
+
+      <div class="arch-card">
+        <span class="arch-card-tag">Модуль · M1</span>
+        <h3>Knowledge Agent</h3>
+        <p>6-пунктовый разбор любой ноты по тикеру/ISIN: базовые активы, барьеры, купонная механика, наблюдения, налогообложение, риски. Налоги, нормативка ЦБ, справочники по российским и американским базовым активам.</p>
+        <div class="arch-card-meta">
+          <span>Лимит: <b>без ограничений</b></span>
+          <span>Канал: <b>Telegram</b></span>
+        </div>
+      </div>
+
+      <div class="arch-card">
+        <span class="arch-card-tag">Модуль · M2</span>
+        <h3>Objection Crusher</h3>
+        <p>3 аргументированных варианта ответа на любое возражение клиента за 8 секунд. Топ-30 типовых сценариев: «дорого», «почему не ОФЗ», «лучше валюту». Калибровка под риск-профиль клиента.</p>
+        <div class="arch-card-meta">
+          <span>Время ответа: <b>≤ 8 сек</b></span>
+          <span>База: <b>30 типовых × 3 варианта</b></span>
+        </div>
+      </div>
+
+      <div class="arch-card">
+        <span class="arch-card-tag">Модуль · M3</span>
+        <h3>Deep Research / SWOT</h3>
+        <p>Автоматический сбор по эмитенту: отчётность МСФО, рейтинги АКРА/Эксперт РА, новостной фон. Упаковка в SWOT + блок «Триггеры на 90 дней» + «Красные флаги». Готово к отправке клиенту.</p>
+        <div class="arch-card-meta">
+          <span>Лимит: <b>10/мес (Основной) · ∞ (Премиум)</b></span>
+          <span>Время: <b>90–180 сек</b></span>
+        </div>
+      </div>
+
+      <div class="arch-card">
+        <span class="arch-card-tag">Модуль · M5</span>
+        <h3>Voice-to-Brief</h3>
+        <p>Голосовая надиктовка после встречи → структурированное резюме в шаблоне «Цель / Возражения / Договорённости / Next steps». На Премиуме — автоинтеграция в Notion / Obsidian с готовыми шаблонами.</p>
+        <div class="arch-card-meta">
+          <span>До <b>15 мин/сессия (Основной)</b></span>
+          <span><b>60 мин + Notion (Премиум)</b></span>
+        </div>
+      </div>
+
+      <div class="arch-card">
+        <span class="arch-card-tag">Модуль · M6</span>
+        <h3>Persona Memory</h3>
+        <p>Обезличенные профили клиентов («Клиент_117 / агрессивный / горизонт 5 лет / интерес к нотам на сырьё»). Никаких ФИО, телефонов, сумм. Бот калибрует ответы под профиль автоматически.</p>
+        <div class="arch-card-meta">
+          <span><b>50 (Основной) · 300 + хронология (Премиум)</b></span>
+          <span>152-ФЗ <b>by design</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="how-it-works" id="how">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Путь от первого касания до результата</span>
+      <h2>Без триалов «за 1 рубль».<br>Только серьёзный вход — и предсказуемая ценность.</h2>
+      <p>Платформа сознательно не даёт вход «потыкать». Воронка построена так, чтобы на каждом этапе пользователь получал результат, а не ознакомление.</p>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <h3>Diagnostic Demo</h3>
+        <p>30-минутная рабочая сессия с основателем по вашему реальному кейсу. Вы приходите с нотой, эмитентом или возражением — уходите с готовым результатом. Это не презентация, это работа.</p>
+        <div class="flow-tag">Бесплатно · <b>лично основатель</b> · 35 сессий/мес</div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <h3>Paid Pilot</h3>
+        <p>14 дней полного доступа к Основному за 1 990 ₽. Активационный коридор первых 24 часов: 2 разбора ноты, 1 возражение, голосовое резюме. Психологическое обязательство, не «триал».</p>
+        <div class="flow-tag">1 990 ₽ · 14 дней · <b>≥ 5 модулей за 24 ч</b></div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <h3>Подписка</h3>
+        <p>Автосписание 17 900 ₽/мес или 179 000 ₽/год. Через 90 дней — поведенческие триггеры апгрейда на Премиум: упор в лимит SWOT, активное использование Voice, рост базы Persona Memory.</p>
+        <div class="flow-tag">17 900 ₽/мес · <b>upgrade → 29 900 ₽</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POSITIONING (DARK) ============ -->
+<section class="positioning">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Семантика тарифов</span>
+      <h2>Основной отвечает на ваши вопросы.<br>Премиум <span class="accent-gold" style="color:#D4AF37">задаёт их вам первым.</span></h2>
+      <p>Кратность цены оправдана сменой парадигмы взаимодействия — не объёмом квот.</p>
+    </div>
+
+    <div class="vs-grid">
+      <div class="vs-side left">
+        <h3>Основной · Реактивный помощник</h3>
+        <div class="vs-headline">«Я задаю вопрос — система отвечает за 8 секунд»</div>
+        <ul class="vs-list">
+          <li><span class="vs-bullet">→</span><span>Knowledge Agent <b>без лимитов</b> — НК РФ, ЦБ, продуктовая полка</span></li>
+          <li><span class="vs-bullet">→</span><span>Objection Crusher <b>без лимитов</b> — 3 варианта на 30 типовых возражений</span></li>
+          <li><span class="vs-bullet">→</span><span>SWOT-разбор эмитента — <b>10 раз в месяц</b></span></li>
+          <li><span class="vs-bullet">→</span><span>Voice-to-Text — <b>30 расшифровок/мес</b>, до 15 минут</span></li>
+          <li><span class="vs-bullet">→</span><span>Persona Memory — <b>50 профилей клиентов</b></span></li>
+          <li><span class="vs-bullet">→</span><span>Дайджест понедельника · справочная аналитика топ-50 РФ</span></li>
+        </ul>
+      </div>
+
+      <div class="vs-side right">
+        <h3>Премиум · Проактивный агент</h3>
+        <div class="vs-headline">«Система сама предупреждает меня о рисках в портфелях клиентов»</div>
+        <ul class="vs-list">
+          <li><span class="vs-bullet">★</span><span><b>Барьер-радар</b> — мониторинг нот в портфелях клиентов: T-30, T-7, реалтайм-уведомления о пробитии барьеров</span></li>
+          <li><span class="vs-bullet">★</span><span><b>Консенсус-Брифы</b> — еженедельная агрегация 5 западных домов + БКС/ВТБ Капитал</span></li>
+          <li><span class="vs-bullet">★</span><span><b>Voice → Notion / Obsidian</b> — голос автоматически в карточку клиента в вашей CRM</span></li>
+          <li><span class="vs-bullet">★</span><span><b>Автогенерация еженедельного брифа клиенту</b> — персональный текст по портфелю каждого</span></li>
+          <li><span class="vs-bullet">★</span><span><b>Persona Memory Pro</b> — 300 профилей, хронология, AI-инсайты cross-client</span></li>
+          <li><span class="vs-bullet">★</span><span><b>1:1 с основателем</b> — 30 минут раз в месяц · разбор кейсов</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Тарифная сетка</span>
+      <h2>Один путь входа.<br>Два уровня монетизации.</h2>
+      <p>Премиум недоступен для прямой покупки с лендинга. Доступ — только через апгрейд из платящего Основного.</p>
+    </div>
+
+    <div class="price-grid">
+
+      <div class="price-card">
+        <span class="price-card-tag">Тариф · Основной</span>
+        <h3>Реактивный помощник</h3>
+        <p class="price-sub">Для практикующего ПМ с активной воронкой. Закрывает 80% повторяющихся ситуаций за рабочий день.</p>
+
+        <div class="price-amount">
+          <span class="price-num">17 900</span>
+          <span class="price-period">₽ / месяц</span>
+        </div>
+        <div class="price-yearly"><b>179 000 ₽/год</b> при оплате одним платежом · экономия 17%</div>
+
+        <ul class="price-features">
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Knowledge Agent</b> · без лимитов</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Objection Crusher</b> · без лимитов · 8 сек на ответ</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Deep Research / SWOT</b> · 10 разборов/мес</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Voice-to-Brief</b> · 30/мес, до 15 мин</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Persona Memory</b> · 50 профилей</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span>Дайджест понедельника · справочная аналитика РФ</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span>Поддержка · ответ до 8 часов</span></li>
+        </ul>
+
+        <a href="#cta" class="btn btn-emerald">Diagnostic Demo →</a>
+      </div>
+
+      <div class="price-card premium">
+        <div class="premium-ribbon">Ранний доступ · Q2 2026</div>
+        <span class="price-card-tag">Тариф · Премиум</span>
+        <h3>Проактивный агент</h3>
+        <p class="price-sub">Для топ-ПМ, готового масштабироваться через делегирование рутины проактивной системе.</p>
+
+        <div class="price-amount">
+          <span class="price-num">29 900</span>
+          <span class="price-period">₽ / месяц</span>
+        </div>
+        <div class="price-yearly"><b>299 000 ₽/год</b> · доступ только через апгрейд из Основного</div>
+
+        <ul class="price-features">
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span>Всё из Основного <b>без лимитов</b></span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Барьер-радар</b> — daily-scan портфелей клиентов</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Консенсус-Брифы</b> — 5 западных домов еженедельно</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Voice → Notion / Obsidian</b> · полная автоматизация</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Автобриф клиенту</b> · персональный текст еженедельно</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>Persona Memory Pro</b> · 300 профилей + хронология</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span><b>1:1 с основателем</b> · 30 мин/мес · разбор кейсов</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg><span>Закрытое сообщество практиков · приоритет ≤ 4 ч</span></li>
+        </ul>
+
+        <a href="#cta" class="btn btn-outline">Войти в waitlist →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ONBOARDING ============ -->
+<section class="onboarding">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Что происходит после Diagnostic Demo</span>
+      <h2>Первые 24 часа определяют 90 дней.</h2>
+      <p>Жёсткий контекстный коридор активации — не интерфейс, который надо разбирать самому.</p>
+    </div>
+
+    <div class="onboard-flow">
+      <div class="onboard-step">
+        <div class="onboard-step-num">ЧАСЫ 0–2</div>
+        <h3>Активация ядра</h3>
+        <p>Бот в Telegram проводит через настройку Persona Memory. Обязательная задача №1: 6-пунктовый разбор реальной ноты из вашей работы. Задача №2: ответ на актуальное возражение клиента.</p>
+        <div class="onboard-step-meta">
+          <span>Цель к концу часа: <b>2 модуля задействованы</b></span>
+          <span class="mono">// активационный gate</span>
+        </div>
+      </div>
+
+      <div class="onboard-step">
+        <div class="onboard-step-num">ДНИ 1–7</div>
+        <h3>Реальное использование</h3>
+        <p>Минимум 1 встреча, на которой использовался Objection Crusher. Минимум 1 SWOT-разбор по эмитенту в работе. Минимум 1 голосовое резюме после встречи. К дню 7 — 15-минутный созвон-проверка с основателем.</p>
+        <div class="onboard-step-meta">
+          <span>Цель к дню 7: <b>1 кейс «использовал на встрече»</b></span>
+          <span class="mono">// aha-moment</span>
+        </div>
+      </div>
+
+      <div class="onboard-step">
+        <div class="onboard-step-num">ДНИ 8–14</div>
+        <h3>Закрепление</h3>
+        <p>Ритуализация Voice-to-Text после каждой встречи. Накопление ≥ 10 профилей в Persona Memory. Тизер Премиума по 1 ноте из вашего портфеля. На день 14 — автосписание 17 900 ₽ или подписание годового контракта.</p>
+        <div class="onboard-step-meta">
+          <span>Цель: <b>3 поведенческих якоря</b></span>
+          <span class="mono">// switching cost activated</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOUNDER ============ -->
+<section class="founder" id="founder">
+  <div class="container">
+    <div class="founder-grid">
+      <div class="founder-card">
+        <div class="label">Основатель</div>
+        <div class="name">AI-Driven Finance Architect</div>
+        <div class="role">13 лет в индустрии · BDM по структурным продуктам сегмента Ультима в БКС</div>
+        <ul class="founder-credentials">
+          <li>Инвестиционный директор ВТБ — курировал 13 офисов и 35 персональных менеджеров</li>
+          <li>Сейчас — BDM по структурным продуктам сегмента <b>Ультима в БКС</b></li>
+          <li>Munich Business School · Manhattan Institute of Management · БФУ им. Канта</li>
+          <li>Свободные C1 английский и B1 немецкий — синтез эксклюзивной аналитики из закрытых источников</li>
+          <li>Сократил подготовку инвест-стратегии с <b>4 часов до 15 минут</b> через AI-архитектуру</li>
+        </ul>
+      </div>
+
+      <div class="founder-text">
+        <span class="eyebrow">Почему именно эта платформа</span>
+        <h2 style="margin-top: 18px;">My Friend — это масштабирование моей собственной архитектуры на весь рынок ПМ.</h2>
+        <p>Я построил эту систему сначала для себя, чтобы убрать паузу из своих встреч и кратно увеличить revenue per hour. Через год работы инфраструктура превратилась в продукт, который физически невозможно собрать без 13 лет в private banking и BDM по структурке.</p>
+        <p>Diagnostic Demo я провожу <b>лично</b> — это не маркетинговая фишка, это операционное решение на стадии 0–30 платящих. Вы не получите менеджера по продажам. Вы получите 30 минут с практиком, который разбирает ваш кейс в реальном времени.</p>
+        <div class="founder-quote">«Системы работают — люди принимают решения».</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Что обычно спрашивают перед Demo</span>
+      <h2>Жёсткие ответы, не маркетинг.</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q">Почему нет триала за 1 ₽ или бесплатной недели?</div>
+        <div class="faq-a">Триалы за 1 ₽ привлекают нецелевой трафик и убивают конверсию в платную подписку. Двухконтурная воронка <b>Diagnostic Demo + Paid Pilot 1 990 ₽</b> на тестах даёт 55% конверсии в подписку против 15% у классических триалов. Это структурное решение, не жадность.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">В чём отличие от ChatGPT или Claude напрямую?</div>
+        <div class="faq-a">Универсальные LLM генерируют правдоподобные, но <b>непроверяемые ответы без ссылок на источники</b>. На вопрос про ст. 214.1 НК РФ ChatGPT может выдать устаревшую редакцию или галлюцинацию. My Friend физически не способен сгенерировать цифру без подтверждения из верифицированной базы — это инфраструктурное ограничение архитектуры RAG.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Как соблюдается 152-ФЗ при работе с клиентскими данными?</div>
+        <div class="faq-a">Системный фильтр на ввод <b>запрещает сохранение ФИО, телефонов, паспортов, email и точных сумм портфеля</b>. Все клиентские данные обезличиваются на уровне ввода — формат «Клиент_117 / агрессивный риск-профиль / горизонт 5 лет». Это compliance by design, а не пользовательская инструкция.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Я работаю в крупном брокере. Не нарушит ли использование платформы NDA?</div>
+        <div class="faq-a">Платформа работает с <b>обезличенными профилями и публично доступной нормативкой</b>. Загрузка собственной продуктовой полки — опционально, и она остаётся в вашем приватном инстансе RAG-индекса. Никакая информация о ваших клиентах или продуктовой полке компании не передаётся другим пользователям. Юридический аудит проводится ежеквартально.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Что делает Diagnostic Demo, если я приду с реальным кейсом?</div>
+        <div class="faq-a">Вы приходите с актуальной нотой, эмитентом или возражением клиента, с которым предстоит работать на следующей неделе. В сессии — live-демонстрация: 6-пунктовый разбор за минуту, отработка возражения за 8 секунд, SWOT за 2 минуты. <b>Вы уходите с готовым результатом по своему кейсу</b>, не с презентацией продукта.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Почему Премиум недоступен для прямой покупки?</div>
+        <div class="faq-a">Премиум стоит +67% к Основному и оправдан сменой парадигмы — проактивный агент вместо реактивного помощника. Без 60–90 дней работы с Основным пользователь физически не может оценить ценность Барьер-радара или Консенсус-Брифов. Прямая продажа Премиума с лендинга даёт высокий refund-риск, поэтому доступ — <b>только через апгрейд из платящего Основного</b>.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Каков ROI подписки в моих реальных деньгах?</div>
+        <div class="faq-a">При среднем чеке сделки 5–15 млн ₽ и комиссии по нотам 2–4% от номинала — <b>месячная подписка 17 900 ₽ окупается с 0.05% от одной средней сделки</b>. Если Objection Crusher помог закрыть хотя бы одну сделку из десяти, которые иначе сорвались бы на возражении, — ROI превышает 50×.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final-cta" id="cta">
+  <div class="container final-cta-inner">
+    <span class="eyebrow">Diagnostic Demo · Лимит 35 сессий в месяц</span>
+    <h2>30 минут с основателем.<br>Ваш реальный кейс. <span class="accent-em">Готовый результат</span>.</h2>
+    <p>Не презентация продукта. Не звонок менеджера по продажам. Рабочая сессия, в которой я разбираю ваш конкретный вопрос — нота, эмитент или возражение клиента — в реальном времени через платформу.</p>
+    <a href="#" class="btn btn-emerald btn-lg">Записаться на Diagnostic Demo →</a>
+    <div class="final-cta-meta">
+      <span><span class="dot"></span> Бесплатно · 30 минут</span>
+      <span>Лично с основателем</span>
+      <span>Pre-Demo квалификация: AUM ≥ 300 млн ₽</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark"></span>
+          X10 WEALTH
+        </a>
+        <p>Профессиональный AI-ассистент для портфельных менеджеров и инвестиционных консультантов в private-сегменте РФ.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Продукт</h4>
+        <a href="#architecture">Архитектура</a>
+        <a href="#how">Как это работает</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#cta">Diagnostic Demo</a>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <a href="#founder">Основатель</a>
+        <a href="#">Закрытое сообщество</a>
+        <a href="#">Контакты</a>
+      </div>
+      <div class="footer-col">
+        <h4>Юридическое</h4>
+        <a href="#">Оферта</a>
+        <a href="#">Политика 152-ФЗ</a>
+        <a href="#">Дисклеймер о ИИР</a>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <p><b>Дисклеймер.</b> Информация, предоставляемая платформой X10 Wealth, носит исключительно справочный характер и не является индивидуальной инвестиционной рекомендацией в смысле ст. 6.2 ФЗ «О рынке ценных бумаг». Платформа не оказывает услуг по доверительному управлению, брокерскому или депозитарному обслуживанию.</p>
+      <p>© 2026 X10 Wealth · Все права защищены</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const q = item.querySelector('.faq-q');
+    q.addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
+  });
+</script>
+
+</body>
+</html>
